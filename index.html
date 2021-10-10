@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="assets/css/style.css"/>
+    <title>Code Quiz</title>
+</head>
+<body class = "container"> 
+    <!--the header will contain the time, and high score-->
+    <header class = "header-container">
+        <!--when clicked will alert the user of the current high score-->
+        <h3 class = "high-score">View High Score</h3>
+
+        <!--live update of the time remaining for the user-->
+        <div class = "time-stamp">
+            <p class = "timeRemaining">time remaining: <span>10s</span></p>
+        </div>
+    </header>
+
+    <!--main will contain elements pretaining to the quiz questions-->
+    <main class = "main-quiz-container">
+        <!-- button to start the quix-->
+        <div class = "btn-wrapper-continue">
+            <div id = "btn-content" class = "btn-content">
+                <h3>Press continue to begin your quiz!</h3>
+                <p>You will only have 30 seconds to complete the quiz!</p>
+                <button id = "btn-continue">Continue</button>
+            </div>
+            <div id = "question-container" class = "question-container">
+                <ul id = "question-list">
+    
+                </ul>
+            </div>    
+        </div>
+       
+        <!-- submit button -->
+        <div class = "answer-indicator-wrapper">
+            <h4 class = "answer-indicator">Correct</h4>
+        </div>
+
+    </main>
+    <script src= "assets/js/script.js"></script>
+</body>
+</html>

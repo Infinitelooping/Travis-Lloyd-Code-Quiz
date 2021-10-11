@@ -194,8 +194,9 @@ function countDown(){
       
         if(over){
             clearInterval(timeInterval);
-        }
-        if (timeLeft >= 0) {
+            timeLeft = "--";
+            timerEl.innerHTML = timeLeft;
+        } else if (timeLeft >= 0) {
             timerEl.innerHTML = timeLeft + "s";
             timeLeft--;
         }else {
@@ -216,8 +217,7 @@ function quizOver() {
         var initials = window.prompt("please enter your initials to save your score as high score!");
         highScore = score;
         localStorage.setItem("currentHighScore", highScore);
-    }else {
-        window.alert("Sorry your score wasnt the highest! goodbye!");
+        window.alert("goodbye!");
     }
     
 }

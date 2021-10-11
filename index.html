@@ -11,11 +11,11 @@
     <!--the header will contain the time, and high score-->
     <header class = "header-container">
         <!--when clicked will alert the user of the current high score-->
-        <h3 class = "high-score">View High Score</h3>
+        <h3 id = "high-score" class = "high-score">View High Score</h3>
 
         <!--live update of the time remaining for the user-->
         <div class = "time-stamp">
-            <p class = "timeRemaining">time remaining: <span>10s</span></p>
+            <p id = "class-remaining" class = "timeRemaining">Time Remaining: <span id = "timer"></span></p>
         </div>
     </header>
 
@@ -36,8 +36,8 @@
         </div>
        
         <!-- submit button -->
-        <div class = "answer-indicator-wrapper">
-            <h4 class = "answer-indicator">Correct</h4>
+        <div id = "answer-indicator-wrapper" class = "answer-indicator-wrapper">
+            <h4 id = "answer-indicator" class = "answer-indicator"></h4>
         </div>
 
     </main>

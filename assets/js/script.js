@@ -1,17 +1,33 @@
 
+//global Vars
 var btnContinueEl = document.getElementById("btn-content");
 var questionListEl = document.getElementById("question-list");
+var answerIndicatorEl = document.getElementById("answer-indicator");
+var answerIndicatorWrapperEl = document.getElementById("answer-indicator-wrapper");
 
-var questionEl = document.createElement("li")
+var timerEl = document.getElementById("timer");
+var timeLeft = 30;
+var over = false;
+
+var highScore = localStorage.getItem("currentHighScore");
+
+
+var questionEl = document.createElement("li");
 var questAnswer1 = document.createElement("button");
 var questAnswer2 = document.createElement("button");
 var questAnswer3 = document.createElement("button");
 var questAnswer4 = document.createElement("button");
 
+var prevQuestionEl = document.createElement("li");
+var prevAnswer1 = document.createElement("button");
+var prevAnswer2 = document.createElement("button");
+var prevAnswer3 = document.createElement("button");
+var prevAnswer4 = document.createElement("button");
+
 var score = 0;
 var i = 0;
 
-
+//object questions
 var question1 = {
     question: "What language is a mark up langauge?",
 
@@ -71,15 +87,24 @@ var question6 = {
     answer4: { opt: "Js.min", correct: false}
 
 };
+//array of questions
 var questions = [question1, question2, question3, question4, question5, question6]
 
 document.getElementById("btn-continue").addEventListener("click", displayQuestion);
+document.getElementById("btn-continue").addEventListener("click", countDown);
 
+//for viewing highscore.
+document.getElementById("high-score").addEventListener("click", function() {
+    window.alert("highscore: " + highScore);
+})
+
+// displays the current question being asked.
 function displayQuestion() {
+       
         btnContinueEl.style.display = "none";
-    
+        
         questionEl.innerHTML = questions[i].question;
-        questionEl.setAttribute("style", " listStyleType:none; display:block; margin-bottom: 25px; margin-top: 20px; background-color:beige; margin: 40px ");
+        questionEl.setAttribute("style", " listStyleType:none; display:block; margin-bottom: 25px; margin-top: 20px; background-color:beige; margin: 40px; padding-bottom:10px; padding-top:10px ");
     
         questAnswer1.innerHTML = questions[i].answer1.opt;
         questAnswer2.innerHTML = questions[i].answer2.opt;
@@ -90,20 +115,33 @@ function displayQuestion() {
         questAnswer2.setAttribute("style", " listStyleType:none; margin:5px; display:block; background-color: beige; width: 100px; height:30px; border:none; border-radius:4px; margin-left:20px ");
         questAnswer3.setAttribute("style", " listStyleType:none; margin:5px; display:block; background-color: beige; width: 100px; height:30px; border:none; border-radius:4px; margin-left:20px ");
         questAnswer4.setAttribute("style", " listStyleType:none; margin:5px; display:block; background-color: beige; width: 100px; height:30px; border:none; border-radius:4px; margin-left:20px ");
-    
+
         questionListEl.appendChild(questionEl);
         questionListEl.appendChild(questAnswer1);
         questionListEl.appendChild(questAnswer2);   
         questionListEl.appendChild(questAnswer3);
-        questionListEl.appendChild(questAnswer4);    
+        questionListEl.appendChild(questAnswer4);
         
+        if (i>0) {
+            prevQuestionEl.innerHTML = questions[i-1].question;
+            prevAnswer1.innerHTML = questions[i-1].answer1.opt;
+            prevAnswer2.innerHTML = questions[i-1].answer1.opt;
+            prevAnswer3.innerHTML = questions[i-1].answer1.opt;
+            prevAnswer4.innerHTML = questions[i-1].answer1.opt;
+
+            questionListEl.replaceChild(questionEl, prevQuestionEl);
+            questionListEl.replaceChild(questAnswer1, prevAnswer1);
+            questionListEl.replaceChild(questAnswer2, prevAnswer2);   
+            questionListEl.replaceChild(questAnswer3, prevAnswer3);
+            questionListEl.replaceChild(questAnswer4, prevAnswer4);
+        } 
         checkAnswers();
         
 
   
 }
 
-
+// grabs the ansers and submits for check
 function checkAnswers() {
     questAnswer1.addEventListener("click", function(){
         var choice = questions[i].answer1.correct;
@@ -124,21 +162,68 @@ function checkAnswers() {
     });
 }
 
+//determines if the user gets points or loses time
 function rewardOrPunish(choice){
     if(choice){
         score = score + 10;
-        console.log("is true!");
-        console.log(i);
+        answerIndicatorWrapperEl.style.display = "flex";
+        answerIndicatorEl.style.display = "block";
+        answerIndicatorEl.innerHTML = "Correct!";
         i++
+        if (i === questions.length) {
+            quizOver();
+        }
         displayQuestion();
     } else{
-        console.log("is false!:(");
+        timeLeft = timeLeft - 5;
+        answerIndicatorWrapperEl.style.display = "flex";
+        answerIndicatorEl.style.display = "block";
+        answerIndicatorEl.innerHTML = "Wrong!";
         i++
-        console.log(i);
+        if (i === questions.length) {
+            quizOver();
+        }
         displayQuestion();
-        //subract time and display next question
+    }
+}
+
+//begins count down
+function countDown(){
+    
+    var timeInterval = setInterval(function() {
+      
+        if(over){
+            clearInterval(timeInterval);
+        }
+        if (timeLeft >= 0) {
+            timerEl.innerHTML = timeLeft + "s";
+            timeLeft--;
+        }else {
+            timerEl.innerHTML = " ";
+            clearInterval(timeInterval);
+            window.alert("TIME IS UP!");
+            quizOver();
+        }
+        
+    }, 1000)
+}
+
+// runs when the quiz is over
+function quizOver() {
+    over = true;
+
+    if(score > highScore){
+        var initials = window.prompt("please enter your initials to save your score as high score!");
+        highScore = score;
+        localStorage.setItem("currentHighScore", highScore);
+    }else {
+        window.alert("Sorry your score wasnt the highest! goodbye!");
     }
     
 }
+
+
+
+
 
 

@@ -10,6 +10,7 @@ var timeLeft = 30;
 var over = false;
 
 var highScore = localStorage.getItem("currentHighScore");
+var initials = localStorage.getItem("highScoreHolder");
 
 
 var questionEl = document.createElement("li");
@@ -95,7 +96,7 @@ document.getElementById("btn-continue").addEventListener("click", countDown);
 
 //for viewing highscore.
 document.getElementById("high-score").addEventListener("click", function() {
-    window.alert("highscore: " + highScore);
+    window.alert("highscore: " + highScore + " held by " + initials);
 })
 
 // displays the current question being asked.
@@ -214,10 +215,13 @@ function quizOver() {
     over = true;
 
     if(score > highScore){
-        var initials = window.prompt("please enter your initials to save your score as high score!");
+        initials = window.prompt("please enter your initials to save your score as high score!");
         highScore = score;
+        localStorage.setItem("highScoreHolder", initials);
         localStorage.setItem("currentHighScore", highScore);
-        window.alert("goodbye!");
+        window.alert("Congrats! your score is the new high score! Goodbye!");
+    } else if (score <= highScore){
+        window.alert("Sorry! Your score isnt the new high score! Goodbye");
     }
     
 }
